@@ -1,23 +1,59 @@
-import logo from './logo.svg';
-import './App.css';
+import { useState } from "react";
+import "./index.css";
+
+const faqs = [
+  {
+    question: "What does someone have to do to get to heaven?",
+    answer:
+      "In Ephesians 2:8-9, the Bible says, 'For by grace are ye saved through faith, and that not of yourselves, it is the gift of God. Not of works, lest any man should boast.' All one has to do to be saved is to stop trusting in their good works, or their religion to take them to heaven and trust in Jesus' death, burial and ressurrecction alone to take them to heaven.",
+  },
+  {
+    question: "Once someone is saved, how long are they saved for?",
+    answer:
+      "Jesus said, 'And I give unto them eternal life, and they shall never perish, neither shall any man pluck them out of my hand. The Lord taught us that once you're saved, you're always saved. Since salvation is by grace, we didn't deserve to recieve it. We don't deserve to keep it either, but God has promised to keep us by his grace.",
+  },
+  {
+    question: "How do I put my faith in Christ?",
+    answer:
+      "Romans 10:13 says, 'For whosoever (that's you and me) shall call upon the name of the LORD shall be saved.' All you have to do to place our faith in Christ is to call upon him and ask him to save you. The thief on the cross simply said, 'Lord, remember me when thou comest into thy kindgom.' The words aren't as important. What matters most is that you're calling out to him in faith to save you.",
+  },
+];
 
 function App() {
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <Accordion data={faqs} />
+    </div>
+  );
+}
+
+function Accordion({ data }) {
+  return (
+    <div className="accordion">
+      {data.map((faq, i) => (
+        <AccordionItem
+          question={faq.question}
+          answer={faq.answer}
+          num={i}
+          key={faq.num}
+        />
+      ))}
+    </div>
+  );
+}
+
+function AccordionItem({ num, question, answer, key }) {
+  const [isOpen, setIsOpen] = useState(false);
+  function handleToggle() {
+    setIsOpen((currentState) => !currentState);
+  }
+  return (
+    <div className={`item ${isOpen ? "open" : ""}`} onClick={handleToggle}>
+      <p className="number">{num < 9 ? `0${num + 1}` : num + 1}</p>
+      <p className="title">{question}</p>
+      <p className="icon">{isOpen ? "-" : "+"}</p>
+
+      {isOpen && <div className="content-box">{answer}</div>}
     </div>
   );
 }
